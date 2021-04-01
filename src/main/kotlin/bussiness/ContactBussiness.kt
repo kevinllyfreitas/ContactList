@@ -5,7 +5,7 @@ import repository.ContactRpository
 import java.lang.Exception
 
 class ContactBussiness {
-    fun validate(name: String, phone: String, delete: Boolean) {
+    private fun validate(name: String, phone: String, delete: Boolean) {
         if (delete && (name == ""|| phone == "")) {
             throw Exception("É necessário selecionar um contato antes de remover!")
         }
@@ -29,5 +29,18 @@ class ContactBussiness {
 
         val contact = ContactEntity(name, phone)
         ContactRpository.delete(contact);
+    }
+
+    fun getList(): List<ContactEntity> {
+        return ContactRpository.getList();
+    }
+
+    fun getContactCountDescription(): String {
+        val list = getList()
+        return when {
+            list.isEmpty() -> "0 contatos"
+            list.size == 1 -> "1 contato"
+            else -> "${list.size} contatos"
+        }
     }
 }
